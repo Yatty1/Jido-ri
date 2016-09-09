@@ -71,7 +71,7 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
             }
         }
         hideView = UIView(frame: self.view.bounds)
-        self.view.addSubview(hideView)
+//        self.view.addSubview(hideView)
         self.view.addSubview(angleLabel)
         self.captureSession.startRunning()
     }
@@ -105,13 +105,13 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         dispatch_sync(dispatch_get_main_queue(), {
             
             //バッファーをUIImageに変換
-            var image = self.imageFromSampleBuffer(sampleBuffer)
+            let image = self.imageFromSampleBuffer(sampleBuffer)
             
             let ciimage:CIImage! = CIImage(image: image)
             
             //CIDetectorAccuracyHighだと高精度（使った感じは遠距離による判定の精度）だが処理が遅くなる
-            var detector : CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options:[CIDetectorAccuracy: CIDetectorAccuracyLow] )
-            var faces : NSArray = detector.featuresInImage(ciimage)
+            let detector : CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options:[CIDetectorAccuracy: CIDetectorAccuracyLow] )
+            let faces : NSArray = detector.featuresInImage(ciimage)
             
             // 検出された顔データを処理
             for subview:UIView in self.hideView.subviews  {
@@ -124,8 +124,8 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
                 
                 // 座標変換
                 var faceRect : CGRect = feature.bounds
-                var widthPer = (self.view.bounds.width/image.size.width)
-                var heightPer = (self.view.bounds.height/image.size.height)
+                let widthPer = (self.view.bounds.width/image.size.width)
+                let heightPer = (self.view.bounds.height/image.size.height)
                 
                 // UIKitは左上に原点があるが、CoreImageは左下に原点があるので揃える
                 faceRect.origin.y = image.size.height - faceRect.origin.y - faceRect.size.height
@@ -141,6 +141,10 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
                 self.angleLabel.text = String(feature.faceAngle)
                 
                 if (feature.faceAngle == -9.0){
+                   
+                    let capturedImage = self.GetImage() as UIImage
+                    UIImageWriteToSavedPhotosAlbum(capturedImage, self, nil, nil)
+                    
                     self.captureSession.stopRunning()
                     self.confirmAlert()
                 }
@@ -154,13 +158,16 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         })
     }
 
-    func GetImage() -> UIImage{
-        let rect = self.view.bounds
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-        let context: CGContextRef = UIGraphicsGetCurrentContext()!
-        self.view.layer.renderInContext(context)
-        let capturedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    func GetImage() -> UIImage {
+        var window = UIApplication.sharedApplication().keyWindow!
+        UIGraphicsBeginImageContextWithOptions(window.bounds.size, false, 0.0)
+        var context = UIGraphicsGetCurrentContext()
+        for aWindow: UIWindow in UIApplication.sharedApplication().windows{
+            aWindow.layer.renderInContext(context!)
+        }
+        var capturedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        UIImageWriteToSavedPhotosAlbum(capturedImage, self, nil, nil)
         return capturedImage
     }
     
