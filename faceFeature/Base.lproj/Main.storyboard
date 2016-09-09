@@ -14,13 +14,89 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="start2-06.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="38R-TN-IjA">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1jh-4o-WU8">
+                                <rect key="frame" x="62" y="425" width="250" height="45"/>
+                                <color key="backgroundColor" red="1" green="0.69529013829999997" blue="0.1826714015" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Angleとうろく">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerPhoto" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jh8-6w-mCR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6r-ra-f3l">
+                                <rect key="frame" x="62" y="519" width="250" height="45"/>
+                                <color key="backgroundColor" red="1" green="0.69529013829999997" blue="0.1826714015" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="JIDO-RI">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="takeJidori" destination="BYZ-38-t0r" eventType="touchUpInside" id="meC-Rb-CBF"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="jidoriBtn" destination="O6r-ra-f3l" id="hIJ-Ht-9Gt"/>
+                        <outlet property="registerBtn" destination="1jh-4o-WU8" id="XPc-wm-URm"/>
+                        <segue destination="HAG-fo-XTU" kind="presentation" identifier="takePhoto" id="5tB-pw-ufU"/>
+                        <segue destination="K7N-Tf-we3" kind="presentation" identifier="jidori" id="6aT-pV-q9o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="454.5" y="376.5"/>
+        </scene>
+        <!--Take Photo-->
+        <scene sceneID="lv1-ay-A7x">
+            <objects>
+                <viewController id="HAG-fo-XTU" customClass="TakePhoto" customModule="faceFeature" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jmf-Ny-Ljp"/>
+                        <viewControllerLayoutGuide type="bottom" id="TJ2-gG-xoG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Lx3-9N-tz7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rgw-Ez-YNe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="999.5" y="376.5"/>
+        </scene>
+        <!--Jidori-->
+        <scene sceneID="lhw-Dw-Tsl">
+            <objects>
+                <viewController id="K7N-Tf-we3" customClass="Jidori" customModule="faceFeature" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="II3-CO-nvv"/>
+                        <viewControllerLayoutGuide type="bottom" id="ehT-aY-ivf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5a4-Vn-paT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ePn-tF-cPF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="999.5" y="1173.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="start2-06.jpg" width="1875" height="3335"/>
+    </resources>
 </document>

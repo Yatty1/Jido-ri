@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D2A88211D75CAD60022E69D /* IMG_3277.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6D2A88201D75CAD60022E69D /* IMG_3277.jpg */; };
-		6D2A88231D75CAE20022E69D /* IMG_3276.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6D2A88221D75CAE20022E69D /* IMG_3276.jpg */; };
+		6D27FBD01D827F570088E045 /* start2-06.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6D27FBCF1D827F570088E045 /* start2-06.jpg */; };
 		6D2A88251D75CDA50022E69D /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2A88241D75CDA50022E69D /* CoreImage.framework */; };
 		6D6978511D717F8600A15481 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6978501D717F8600A15481 /* AppDelegate.swift */; };
 		6D6978531D717F8600A15481 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6978521D717F8600A15481 /* ViewController.swift */; };
@@ -17,9 +16,9 @@
 		6D69785B1D717F8600A15481 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6978591D717F8600A15481 /* LaunchScreen.storyboard */; };
 		6D6978661D717F8600A15481 /* faceFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6978651D717F8600A15481 /* faceFeatureTests.swift */; };
 		6D6978711D717F8600A15481 /* faceFeatureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6978701D717F8600A15481 /* faceFeatureUITests.swift */; };
-		6DB2BCA71D76A64C00ED8482 /* IMG_3280.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DB2BCA61D76A64C00ED8482 /* IMG_3280.jpg */; };
-		6DB2BCA91D76A65100ED8482 /* IMG_3279.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DB2BCA81D76A65100ED8482 /* IMG_3279.jpg */; };
-		6DB2BCAB1D76A65700ED8482 /* IMG_3278.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DB2BCAA1D76A65700ED8482 /* IMG_3278.jpg */; };
+		6DEAA3931D81C5B900772B58 /* PictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAA3921D81C5B900772B58 /* PictureView.swift */; };
+		6DEAA3951D81CD3A00772B58 /* TakePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */; };
+		6DEAA3D51D82514600772B58 /* Jidori.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAA3D41D82514600772B58 /* Jidori.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6D2A88201D75CAD60022E69D /* IMG_3277.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_3277.jpg; sourceTree = "<group>"; };
-		6D2A88221D75CAE20022E69D /* IMG_3276.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_3276.jpg; sourceTree = "<group>"; };
+		6D27FBCF1D827F570088E045 /* start2-06.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "start2-06.jpg"; sourceTree = "<group>"; };
 		6D2A88241D75CDA50022E69D /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		6D69784D1D717F8600A15481 /* faceFeature.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = faceFeature.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6978501D717F8600A15481 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,9 +54,9 @@
 		6D69786C1D717F8600A15481 /* faceFeatureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faceFeatureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6978701D717F8600A15481 /* faceFeatureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = faceFeatureUITests.swift; sourceTree = "<group>"; };
 		6D6978721D717F8600A15481 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DB2BCA61D76A64C00ED8482 /* IMG_3280.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_3280.jpg; sourceTree = "<group>"; };
-		6DB2BCA81D76A65100ED8482 /* IMG_3279.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_3279.jpg; sourceTree = "<group>"; };
-		6DB2BCAA1D76A65700ED8482 /* IMG_3278.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_3278.jpg; sourceTree = "<group>"; };
+		6DEAA3921D81C5B900772B58 /* PictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureView.swift; sourceTree = "<group>"; };
+		6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TakePhoto.swift; sourceTree = "<group>"; };
+		6DEAA3D41D82514600772B58 /* Jidori.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jidori.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,13 +109,12 @@
 		6D69784F1D717F8600A15481 /* faceFeature */ = {
 			isa = PBXGroup;
 			children = (
-				6D2A88201D75CAD60022E69D /* IMG_3277.jpg */,
-				6D2A88221D75CAE20022E69D /* IMG_3276.jpg */,
-				6DB2BCA61D76A64C00ED8482 /* IMG_3280.jpg */,
-				6DB2BCA81D76A65100ED8482 /* IMG_3279.jpg */,
-				6DB2BCAA1D76A65700ED8482 /* IMG_3278.jpg */,
+				6D27FBCF1D827F570088E045 /* start2-06.jpg */,
 				6D6978501D717F8600A15481 /* AppDelegate.swift */,
 				6D6978521D717F8600A15481 /* ViewController.swift */,
+				6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */,
+				6DEAA3D41D82514600772B58 /* Jidori.swift */,
+				6DEAA3921D81C5B900772B58 /* PictureView.swift */,
 				6D6978541D717F8600A15481 /* Main.storyboard */,
 				6D6978571D717F8600A15481 /* Assets.xcassets */,
 				6D6978591D717F8600A15481 /* LaunchScreen.storyboard */,
@@ -251,14 +248,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DB2BCA71D76A64C00ED8482 /* IMG_3280.jpg in Resources */,
-				6D2A88231D75CAE20022E69D /* IMG_3276.jpg in Resources */,
 				6D69785B1D717F8600A15481 /* LaunchScreen.storyboard in Resources */,
-				6DB2BCAB1D76A65700ED8482 /* IMG_3278.jpg in Resources */,
 				6D6978581D717F8600A15481 /* Assets.xcassets in Resources */,
-				6D2A88211D75CAD60022E69D /* IMG_3277.jpg in Resources */,
-				6DB2BCA91D76A65100ED8482 /* IMG_3279.jpg in Resources */,
 				6D6978561D717F8600A15481 /* Main.storyboard in Resources */,
+				6D27FBD01D827F570088E045 /* start2-06.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +276,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DEAA3931D81C5B900772B58 /* PictureView.swift in Sources */,
+				6DEAA3951D81CD3A00772B58 /* TakePhoto.swift in Sources */,
 				6D6978531D717F8600A15481 /* ViewController.swift in Sources */,
+				6DEAA3D51D82514600772B58 /* Jidori.swift in Sources */,
 				6D6978511D717F8600A15481 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,10 +422,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = faceFeature/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -437,10 +436,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = faceFeature/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeature;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
