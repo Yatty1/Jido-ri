@@ -78,17 +78,17 @@
 		6D27FC731D8299090088E045 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6D27FC861D829A110088E045 /* RegisterAngle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterAngle.swift; sourceTree = "<group>"; };
 		6D2A88241D75CDA50022E69D /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		6D69784D1D717F8600A15481 /* faceFeature.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = faceFeature.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D69784D1D717F8600A15481 /* Jido-ri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jido-ri.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6978501D717F8600A15481 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6D6978521D717F8600A15481 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6D6978551D717F8600A15481 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6D6978571D717F8600A15481 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D69785A1D717F8600A15481 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D69785C1D717F8600A15481 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D6978611D717F8600A15481 /* faceFeatureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faceFeatureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D6978611D717F8600A15481 /* Jido-ri.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Jido-ri.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6978651D717F8600A15481 /* faceFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = faceFeatureTests.swift; sourceTree = "<group>"; };
 		6D6978671D717F8600A15481 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6D69786C1D717F8600A15481 /* faceFeatureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = faceFeatureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D69786C1D717F8600A15481 /* Jido-ri.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Jido-ri.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6978701D717F8600A15481 /* faceFeatureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = faceFeatureUITests.swift; sourceTree = "<group>"; };
 		6D6978721D717F8600A15481 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TakePhoto.swift; sourceTree = "<group>"; };
@@ -168,9 +168,9 @@
 		6D69784E1D717F8600A15481 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6D69784D1D717F8600A15481 /* faceFeature.app */,
-				6D6978611D717F8600A15481 /* faceFeatureTests.xctest */,
-				6D69786C1D717F8600A15481 /* faceFeatureUITests.xctest */,
+				6D69784D1D717F8600A15481 /* Jido-ri.app */,
+				6D6978611D717F8600A15481 /* Jido-ri.xctest */,
+				6D69786C1D717F8600A15481 /* Jido-ri.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,9 +214,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6D69784C1D717F8600A15481 /* faceFeature */ = {
+		6D69784C1D717F8600A15481 /* Jido-ri */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6D6978751D717F8600A15481 /* Build configuration list for PBXNativeTarget "faceFeature" */;
+			buildConfigurationList = 6D6978751D717F8600A15481 /* Build configuration list for PBXNativeTarget "Jido-ri" */;
 			buildPhases = (
 				6D6978491D717F8600A15481 /* Sources */,
 				6D69784A1D717F8600A15481 /* Frameworks */,
@@ -226,14 +226,14 @@
 			);
 			dependencies = (
 			);
-			name = faceFeature;
+			name = "Jido-ri";
 			productName = faceFeature;
-			productReference = 6D69784D1D717F8600A15481 /* faceFeature.app */;
+			productReference = 6D69784D1D717F8600A15481 /* Jido-ri.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6D6978601D717F8600A15481 /* faceFeatureTests */ = {
+		6D6978601D717F8600A15481 /* Jido-riTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6D6978781D717F8600A15481 /* Build configuration list for PBXNativeTarget "faceFeatureTests" */;
+			buildConfigurationList = 6D6978781D717F8600A15481 /* Build configuration list for PBXNativeTarget "Jido-riTests" */;
 			buildPhases = (
 				6D69785D1D717F8600A15481 /* Sources */,
 				6D69785E1D717F8600A15481 /* Frameworks */,
@@ -244,14 +244,14 @@
 			dependencies = (
 				6D6978631D717F8600A15481 /* PBXTargetDependency */,
 			);
-			name = faceFeatureTests;
+			name = "Jido-riTests";
 			productName = faceFeatureTests;
-			productReference = 6D6978611D717F8600A15481 /* faceFeatureTests.xctest */;
+			productReference = 6D6978611D717F8600A15481 /* Jido-ri.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		6D69786B1D717F8600A15481 /* faceFeatureUITests */ = {
+		6D69786B1D717F8600A15481 /* Jido-riUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6D69787B1D717F8600A15481 /* Build configuration list for PBXNativeTarget "faceFeatureUITests" */;
+			buildConfigurationList = 6D69787B1D717F8600A15481 /* Build configuration list for PBXNativeTarget "Jido-riUITests" */;
 			buildPhases = (
 				6D6978681D717F8600A15481 /* Sources */,
 				6D6978691D717F8600A15481 /* Frameworks */,
@@ -262,9 +262,9 @@
 			dependencies = (
 				6D69786E1D717F8600A15481 /* PBXTargetDependency */,
 			);
-			name = faceFeatureUITests;
+			name = "Jido-riUITests";
 			productName = faceFeatureUITests;
-			productReference = 6D69786C1D717F8600A15481 /* faceFeatureUITests.xctest */;
+			productReference = 6D69786C1D717F8600A15481 /* Jido-ri.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -293,7 +293,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6D6978481D717F8600A15481 /* Build configuration list for PBXProject "faceFeature" */;
+			buildConfigurationList = 6D6978481D717F8600A15481 /* Build configuration list for PBXProject "Jido-ri" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -306,9 +306,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6D69784C1D717F8600A15481 /* faceFeature */,
-				6D6978601D717F8600A15481 /* faceFeatureTests */,
-				6D69786B1D717F8600A15481 /* faceFeatureUITests */,
+				6D69784C1D717F8600A15481 /* Jido-ri */,
+				6D6978601D717F8600A15481 /* Jido-riTests */,
+				6D69786B1D717F8600A15481 /* Jido-riUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -393,12 +393,12 @@
 /* Begin PBXTargetDependency section */
 		6D6978631D717F8600A15481 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6D69784C1D717F8600A15481 /* faceFeature */;
+			target = 6D69784C1D717F8600A15481 /* Jido-ri */;
 			targetProxy = 6D6978621D717F8600A15481 /* PBXContainerItemProxy */;
 		};
 		6D69786E1D717F8600A15481 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6D69784C1D717F8600A15481 /* faceFeature */;
+			target = 6D69784C1D717F8600A15481 /* Jido-ri */;
 			targetProxy = 6D69786D1D717F8600A15481 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -515,7 +515,7 @@
 				INFOPLIST_FILE = faceFeature/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeature;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Jido-ri";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -529,7 +529,7 @@
 				INFOPLIST_FILE = faceFeature/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeature;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Jido-ri";
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -541,8 +541,8 @@
 				INFOPLIST_FILE = faceFeatureTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeatureTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/faceFeature.app/faceFeature";
+				PRODUCT_NAME = "Jido-ri";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jido-ri.app/Jido-ri";
 			};
 			name = Debug;
 		};
@@ -553,8 +553,8 @@
 				INFOPLIST_FILE = faceFeatureTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeatureTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/faceFeature.app/faceFeature";
+				PRODUCT_NAME = "Jido-ri";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jido-ri.app/Jido-ri";
 			};
 			name = Release;
 		};
@@ -564,7 +564,7 @@
 				INFOPLIST_FILE = faceFeatureUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeatureUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Jido-ri";
 				TEST_TARGET_NAME = faceFeature;
 			};
 			name = Debug;
@@ -575,7 +575,7 @@
 				INFOPLIST_FILE = faceFeatureUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeatureUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Jido-ri";
 				TEST_TARGET_NAME = faceFeature;
 			};
 			name = Release;
@@ -583,7 +583,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6D6978481D717F8600A15481 /* Build configuration list for PBXProject "faceFeature" */ = {
+		6D6978481D717F8600A15481 /* Build configuration list for PBXProject "Jido-ri" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D6978731D717F8600A15481 /* Debug */,
@@ -592,7 +592,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6D6978751D717F8600A15481 /* Build configuration list for PBXNativeTarget "faceFeature" */ = {
+		6D6978751D717F8600A15481 /* Build configuration list for PBXNativeTarget "Jido-ri" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D6978761D717F8600A15481 /* Debug */,
@@ -601,7 +601,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6D6978781D717F8600A15481 /* Build configuration list for PBXNativeTarget "faceFeatureTests" */ = {
+		6D6978781D717F8600A15481 /* Build configuration list for PBXNativeTarget "Jido-riTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D6978791D717F8600A15481 /* Debug */,
@@ -610,7 +610,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6D69787B1D717F8600A15481 /* Build configuration list for PBXNativeTarget "faceFeatureUITests" */ = {
+		6D69787B1D717F8600A15481 /* Build configuration list for PBXNativeTarget "Jido-riUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6D69787C1D717F8600A15481 /* Debug */,

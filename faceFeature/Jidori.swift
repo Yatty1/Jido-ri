@@ -19,6 +19,9 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     let devices = AVCaptureDevice.devices()
     
     var videoOutput = AVCaptureVideoDataOutput()
+    var imageOutput: AVCaptureStillImageOutput = AVCaptureStillImageOutput()
+    var myImageData: NSData!
+
     
     var hideView = UIView()
     
@@ -62,6 +65,7 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         self.videoOutput.alwaysDiscardsLateVideoFrames = true
         
         self.captureSession.addOutput(self.videoOutput)
+        self.captureSession.addOutput(self.imageOutput)
         
         let videoLayer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
         videoLayer.frame = self.view.bounds
@@ -152,7 +156,19 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
                 //指定のアングルで写真を撮る
                 if (feature.faceAngle == self.angle || feature.faceAngle == -self.angle){
                    
-                    self.capturedImage = self.GetImage() as UIImage
+                    //シャッターを押す
+                    //connect video output
+                    let myVideoConnection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
+                    //get image from connection
+                    self.imageOutput.captureStillImageAsynchronouslyFromConnection(myVideoConnection, completionHandler: {(imageDataBuffer, error) -> Void in
+                        if let e = error {
+                            print(e.localizedDescription)
+                            return
+                        }
+                        //convert databuffer to jpeg
+                        self.myImageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataBuffer)
+                        
+                    })
                     
                     self.captureSession.stopRunning()
                     self.confirmAlert()
@@ -168,23 +184,6 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     }
     
    
-    func GetImage() -> UIImage {
-//            var window: UIWindow? = UIApplication.sharedApplication().keyWindow
-//            window = UIApplication.sharedApplication().windows[0] as? UIWindow
-//            UIGraphicsBeginImageContextWithOptions(window!.frame.size, window!.opaque, 0.0)
-//            window!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-//            let image = UIGraphicsGetImageFromCurrentImageContext()
-//            UIGraphicsEndImageContext()
-//            return image
-        
-        UIGraphicsBeginImageContextWithOptions(UIScreen.mainScreen().bounds.size, false, 0);
-        self.view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
-        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
-
-
-    }
     
     //確認アラート
     func confirmAlert(){
@@ -211,7 +210,10 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     //保存する
     func save(action: UIAlertAction){
-        UIImageWriteToSavedPhotosAlbum(capturedImage, self, nil, nil)
+        // create UIImage from jpeg
+        let myImage = UIImage(data: self.myImageData)!
+        // add to album
+        UIImageWriteToSavedPhotosAlbum(myImage, self, nil, nil)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     //もう一度

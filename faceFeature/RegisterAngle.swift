@@ -40,6 +40,7 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     @IBOutlet var ok: UIButton!
     var faceAngle: Float!
     
+    @IBOutlet weak var angle: UILabel!
     var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
@@ -51,6 +52,10 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
         ok.layer.masksToBounds = true
         ok.layer.cornerRadius = 15.0
         ok.hidden = true
+        // labelのプロパティ設定
+        angle.layer.masksToBounds = true
+        angle.layer.cornerRadius = 10.0
+        angle.hidden = true
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -77,6 +82,7 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
         myImageView.image = image
         retake.hidden = false
         ok.hidden = false
+        angle.hidden = false
         //ここに顔認識、角度取得の処理を書く
         recognizeFace(myImageView.image!)
         
@@ -113,6 +119,8 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
                 print("this is face angle of picture\(faceAngle)")
                 //userdefaultに保存
                 defaults.setFloat(faceAngle, forKey: "angle")
+                //labelに表示
+                angle.text = String(faceAngle)
                         
                 //座標変換
                 let faceRect: CGRect = CGRectApplyAffineTransform(feature.bounds, transform)

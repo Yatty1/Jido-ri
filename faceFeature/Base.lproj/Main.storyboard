@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="faceFeature" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Jido_ri" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -60,7 +60,7 @@
         <!--Register Angle-->
         <scene sceneID="lv1-ay-A7x">
             <objects>
-                <viewController id="HAG-fo-XTU" customClass="RegisterAngle" customModule="faceFeature" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HAG-fo-XTU" customClass="RegisterAngle" customModule="Jido_ri" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jmf-Ny-Ljp"/>
                         <viewControllerLayoutGuide type="bottom" id="TJ2-gG-xoG"/>
@@ -94,11 +94,19 @@
                                     <action selector="okBtn:" destination="HAG-fo-XTU" eventType="touchUpInside" id="M2f-1Z-s2r"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qla-PV-AeI">
+                                <rect key="frame" x="157" y="602" width="60" height="30"/>
+                                <color key="backgroundColor" red="0.071439999812365929" green="0.95928269304764813" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="angle" destination="qla-PV-AeI" id="fHm-OL-4P0"/>
                         <outlet property="myImageView" destination="sDe-pG-fAg" id="qc6-xt-ZZ8"/>
                         <outlet property="ok" destination="QfC-8d-fsx" id="lzh-94-tN2"/>
                         <outlet property="retake" destination="9Sr-AJ-6dH" id="fKE-x0-g1P"/>
@@ -111,7 +119,7 @@
         <!--Jidori-->
         <scene sceneID="lhw-Dw-Tsl">
             <objects>
-                <viewController id="K7N-Tf-we3" customClass="Jidori" customModule="faceFeature" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="K7N-Tf-we3" customClass="Jidori" customModule="Jido_ri" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="II3-CO-nvv"/>
                         <viewControllerLayoutGuide type="bottom" id="ehT-aY-ivf"/>
