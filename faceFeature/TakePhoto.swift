@@ -18,6 +18,8 @@ class TakePhoto: UIViewController{
     
     var myImageData: NSData!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //create session
@@ -101,7 +103,6 @@ class TakePhoto: UIViewController{
             self.dismissViewControllerAnimated(true, completion: nil)
             
         }
-        
         //cencelのときはもう一度カメラが動きだす
         func oneMore(action: UIAlertAction){
             session.startRunning()

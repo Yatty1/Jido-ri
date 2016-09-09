@@ -13,13 +13,19 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     let captureSession = AVCaptureSession()
     let videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-    let audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
     //mydevice
     var myDevice: AVCaptureDevice!
     //get device list
     let devices = AVCaptureDevice.devices()
+    
     var videoOutput = AVCaptureVideoDataOutput()
+    
     var hideView = UIView()
+    
+    var capturedImage: UIImage!
+    
+    var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+    var angle: Float!
 
     //label
     var angleLabel : UILabel!
@@ -70,8 +76,11 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
                 }
             }
         }
+        
+        //
+        
         hideView = UIView(frame: self.view.bounds)
-//        self.view.addSubview(hideView)
+        self.view.addSubview(hideView)
         self.view.addSubview(angleLabel)
         self.captureSession.startRunning()
     }
@@ -137,13 +146,13 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
                 faceRect.size.height = faceRect.size.height * heightPer
                 
                 print(feature.faceAngle)
-                
+                //アングル表示
                 self.angleLabel.text = String(feature.faceAngle)
-                
-                if (feature.faceAngle == -9.0){
+                self.angle = self.defaults.floatForKey("angle")
+                //指定のアングルで写真を撮る
+                if (feature.faceAngle == self.angle || feature.faceAngle == -self.angle){
                    
-                    let capturedImage = self.GetImage() as UIImage
-                    UIImageWriteToSavedPhotosAlbum(capturedImage, self, nil, nil)
+                    self.capturedImage = self.GetImage() as UIImage
                     
                     self.captureSession.stopRunning()
                     self.confirmAlert()
@@ -157,18 +166,24 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
             }
         })
     }
-
+    
+   
     func GetImage() -> UIImage {
-        var window = UIApplication.sharedApplication().keyWindow!
-        UIGraphicsBeginImageContextWithOptions(window.bounds.size, false, 0.0)
-        var context = UIGraphicsGetCurrentContext()
-        for aWindow: UIWindow in UIApplication.sharedApplication().windows{
-            aWindow.layer.renderInContext(context!)
-        }
-        var capturedImage = UIGraphicsGetImageFromCurrentImageContext()
+//            var window: UIWindow? = UIApplication.sharedApplication().keyWindow
+//            window = UIApplication.sharedApplication().windows[0] as? UIWindow
+//            UIGraphicsBeginImageContextWithOptions(window!.frame.size, window!.opaque, 0.0)
+//            window!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+//            let image = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+//            return image
+        
+        UIGraphicsBeginImageContextWithOptions(UIScreen.mainScreen().bounds.size, false, 0);
+        self.view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
+        let image:UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        UIImageWriteToSavedPhotosAlbum(capturedImage, self, nil, nil)
-        return capturedImage
+        return image
+
+
     }
     
     //確認アラート
@@ -179,9 +194,15 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         let okAction = UIAlertAction(title: "保存",
                                      style: .Default,
                                      handler: save)
+        
+        let backAction = UIAlertAction(title: "スタートに戻る",
+                                 style: .Default,
+                                 handler: back)
+        
         let oneMore = UIAlertAction(title: "もう一度",
                                     style: .Cancel,
                                     handler: more)
+        alert.addAction(backAction)
         alert.addAction(okAction)
         alert.addAction(oneMore)
         presentViewController(alert, animated: true, completion: nil)
@@ -190,13 +211,17 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     
     //保存する
     func save(action: UIAlertAction){
+        UIImageWriteToSavedPhotosAlbum(capturedImage, self, nil, nil)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     //もう一度
     func more(action: UIAlertAction){
         self.captureSession.startRunning()
     }
-    
+    //戻る
+    func back(action: UIAlertAction){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
