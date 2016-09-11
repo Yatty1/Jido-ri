@@ -18,7 +18,7 @@ extension UIImage{
         UIGraphicsBeginImageContext(CGSizeMake(width, height))
         
         // コンテキストに自身に設定された画像を描画する.
-        image.drawInRect(CGRectMake(0, 0, width, height))
+        image.drawInRect(CGRectMake(0, 20, width, height))
         
         // コンテキストからUIImageを作る.
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -94,11 +94,12 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     }
     
     func recognizeFace(image: UIImage){
-            let myImage: UIImage = UIImage.ResizeUIImage(image, width: self.view.frame.width, height: self.view.frame.height-90)
+            let myImage: UIImage = UIImage.ResizeUIImage(image, width: self.view.frame.width, height: self.view.frame.height-145)
             // create UIImageView
             let myImageView: UIImageView = UIImageView()
             myImageView.frame = CGRectMake(0, 0, myImage.size.width, myImage.size.height)
             myImageView.image = myImage
+            myImageView.contentMode = UIViewContentMode.ScaleAspectFit
             self.view.addSubview(myImageView)
         
             //create option as Dictionary Type. add accuracy of recognition
@@ -116,9 +117,14 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
         
             for feature in faces{
                 faceAngle = feature.faceAngle
-                print("this is face angle of picture\(faceAngle)")
+                print("angle is \(faceAngle)")
+                if (faceAngle == 0.0){
+                    errorAlert()
+                    
+                }else{
                 //userdefaultに保存
                 defaults.setFloat(faceAngle, forKey: "angle")
+                }
                 //labelに表示
                 angle.text = String(faceAngle)
                         
@@ -140,7 +146,23 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     
     @IBAction func retakeBtn(sender: AnyObject) {
         defaults.removeObjectForKey("angle")
-        chooseAlert()
+        retakeAlert()
+    }
+    
+    
+    //角度が検知されなかった時のエラーアラート
+    func errorAlert(){
+        let alert = UIAlertController(title: "角度が検知できませんでした。",
+                                      message: "もう一度撮り直してください",
+                                      preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK",
+                                   style: .Default,
+                                   handler: camera)
+        alert.addAction(action)
+        presentViewController(alert, animated: true, completion:  nil)
+    }
+    func camera (action: UIAlertAction){
+        self.presentPickerController(.Camera)
     }
     
     //ok押した時のalert
@@ -158,8 +180,6 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     func save(action: UIAlertAction){
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
     
     // 最初に出すアラート。ここでカメラかライブラリかを決める
     func chooseAlert(){
@@ -187,4 +207,30 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //リテイクの時のアクションシート。違いはキャンセルを押した時にスタート画面に戻らないこと。
+    func retakeAlert(){
+        let alert = UIAlertController(title: "写真を選んで角度を登録！",
+                                      message: "カメラかライブラリから",
+                                      preferredStyle: .ActionSheet)
+        let cameraAction = UIAlertAction(title: "カメラ",
+                                         style: .Default){
+                                            action in self.presentPickerController(.Camera)
+        }
+        let libraryAction = UIAlertAction(title: "ライブラリ",
+                                          style: .Default){
+                                            action in self.presentPickerController(.PhotoLibrary)
+        }
+        let back = UIAlertAction(title: "スタートに戻る",
+                                 style: .Destructive,
+                                 handler: cancel)
+        let cancelAction = UIAlertAction(title: "キャンセル",
+                                         style: .Cancel,
+                                         handler: nil)
+        alert.addAction(cameraAction)
+        alert.addAction(libraryAction)
+        alert.addAction(back)
+        alert.addAction(cancelAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
 }

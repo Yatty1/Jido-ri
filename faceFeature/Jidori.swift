@@ -32,6 +32,13 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
 
     //label
     var angleLabel : UILabel!
+    var backBtn: UIButton!
+    
+    //timer
+    var timer: Int = 4
+    var timerLabel: UILabel!
+    var getCount: Int = 0
+    var timerCount: NSTimer!
     
     
     override func viewDidLoad() {
@@ -43,7 +50,25 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         angleLabel.textAlignment = NSTextAlignment.Center
         angleLabel.layer.masksToBounds = true
         angleLabel.layer.cornerRadius = 20.0
-        angleLabel.layer.position = CGPoint(x:self.view.bounds.width/2, y: self.view.bounds.height-50)
+        angleLabel.layer.position = CGPoint(x:self.view.bounds.width-70, y: self.view.bounds.height-50)
+        
+        //backBtn
+        backBtn = UIButton(frame: CGRectMake(0,0,100,50))
+        backBtn.backgroundColor = UIColor.orangeColor()
+        backBtn.setTitle("Back", forState: .Normal)
+        backBtn.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        backBtn.layer.masksToBounds = true
+        backBtn.layer.cornerRadius = 10.0
+        backBtn.layer.position = CGPoint(x:self.view.bounds.width-300, y: self.view.bounds.height-50)
+        backBtn.addTarget(self, action: #selector(back), forControlEvents: .TouchUpInside)
+        
+        //timer label
+        timerLabel = UILabel(frame: CGRectMake(0,0,80, 150))
+        timerLabel.textColor = UIColor.whiteColor()
+        timerLabel.textAlignment = NSTextAlignment.Center
+        timerLabel.font = timerLabel.font.fontWithSize(40)
+        timerLabel.layer.position = CGPoint(x:self.view.bounds.width/2, y:self.view.bounds.height-300)
+        timerLabel.hidden = true
         
         //get front camera
         for device in devices{
@@ -86,6 +111,8 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         hideView = UIView(frame: self.view.bounds)
         self.view.addSubview(hideView)
         self.view.addSubview(angleLabel)
+        self.view.addSubview(backBtn)
+        self.view.addSubview(timerLabel)
         self.captureSession.startRunning()
     }
     
@@ -153,32 +180,15 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
                 //アングル表示
                 self.angleLabel.text = String(feature.faceAngle)
                 self.angle = self.defaults.floatForKey("angle")
+                
                 //指定のアングルで写真を撮る
-                if (feature.faceAngle == self.angle || feature.faceAngle == -self.angle){
-                   
-                    //シャッターを押す
-                    //connect video output
-                    let myVideoConnection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
-                    //get image from connection
-                    self.imageOutput.captureStillImageAsynchronouslyFromConnection(myVideoConnection, completionHandler: {(imageDataBuffer, error) -> Void in
-                        if let e = error {
-                            print(e.localizedDescription)
-                            return
-                        }
-                        //convert databuffer to jpeg
-                        self.myImageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataBuffer)
-                        
-                    })
+                if (feature.faceAngle == self.angle){
                     
-                    self.captureSession.stopRunning()
-                    self.confirmAlert()
+                    self.getCount += 1
+                    if (self.getCount == 1){
+                        self.timerCount = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(self.shot), userInfo: nil, repeats: true)
+                    }
                 }
-                
-//                // 顔を隠す画像を表示
-//                let hideImage = UIImageView(image:UIImage(named:"hoge.jpg"))
-//                hideImage.frame = faceRect
-                
-//                self.hideView.addSubview(hideImage)
             }
         })
     }
@@ -193,20 +203,46 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         let okAction = UIAlertAction(title: "保存",
                                      style: .Default,
                                      handler: save)
-        
-        let backAction = UIAlertAction(title: "スタートに戻る",
-                                 style: .Default,
-                                 handler: back)
-        
         let oneMore = UIAlertAction(title: "もう一度",
                                     style: .Cancel,
                                     handler: more)
-        alert.addAction(backAction)
         alert.addAction(okAction)
         alert.addAction(oneMore)
+        self.getCount = 0
         presentViewController(alert, animated: true, completion: nil)
     }
     
+    //タイマーで呼び出し。　3.2.1でシャッターを切る
+    func shot(){
+        
+        timerLabel.hidden = false
+        timer = timer - 1
+        timerLabel.text = String(timer)
+        
+        if timer == 0{
+            timerLabel.text = String(timer)
+            //シャッターを押す
+            //connect video output
+            let myVideoConnection = self.imageOutput.connectionWithMediaType(AVMediaTypeVideo)
+            //get image from connection
+            self.imageOutput.captureStillImageAsynchronouslyFromConnection(myVideoConnection, completionHandler: {(imageDataBuffer, error) -> Void in
+                if let e = error {
+                    print(e.localizedDescription)
+                    return
+                }
+                //convert databuffer to jpeg
+                self.myImageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataBuffer)
+            })
+            self.captureSession.stopRunning()
+            self.confirmAlert()
+            //タイマーを止める。タイマーリセット
+            timerCount.invalidate()
+            timer = 4
+            timerLabel.hidden = true
+        }
+        
+
+    }
     
     //保存する
     func save(action: UIAlertAction){
@@ -214,17 +250,18 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         let myImage = UIImage(data: self.myImageData)!
         // add to album
         UIImageWriteToSavedPhotosAlbum(myImage, self, nil, nil)
+        self.captureSession.stopRunning()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     //もう一度
     func more(action: UIAlertAction){
         self.captureSession.startRunning()
     }
-    //戻る
-    func back(action: UIAlertAction){
+    func back(){
+        self.captureSession.stopRunning()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-   
+      
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
