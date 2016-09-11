@@ -50,7 +50,7 @@ class Jidori: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
         angleLabel.textAlignment = NSTextAlignment.Center
         angleLabel.layer.masksToBounds = true
         angleLabel.layer.cornerRadius = 20.0
-        angleLabel.layer.position = CGPoint(x:self.view.bounds.width-70, y: self.view.bounds.height-50)
+        angleLabel.layer.position = CGPoint(x:self.view.bounds.width/2, y: self.view.bounds.height-620)
         
         //backBtn
         backBtn = UIButton(frame: CGRectMake(0,0,100,50))
