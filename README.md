@@ -1,1 +1,1 @@
-# This is app which get face feature
+# JIDO-RI
