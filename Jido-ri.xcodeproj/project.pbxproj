@@ -35,7 +35,6 @@
 		6D69785B1D717F8600A15481 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6978591D717F8600A15481 /* LaunchScreen.storyboard */; };
 		6D6978661D717F8600A15481 /* faceFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6978651D717F8600A15481 /* faceFeatureTests.swift */; };
 		6D6978711D717F8600A15481 /* faceFeatureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6978701D717F8600A15481 /* faceFeatureUITests.swift */; };
-		6DEAA3951D81CD3A00772B58 /* TakePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */; };
 		6DEAA3D51D82514600772B58 /* Jidori.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEAA3D41D82514600772B58 /* Jidori.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +90,6 @@
 		6D69786C1D717F8600A15481 /* Jido-ri.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Jido-ri.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D6978701D717F8600A15481 /* faceFeatureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = faceFeatureUITests.swift; sourceTree = "<group>"; };
 		6D6978721D717F8600A15481 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TakePhoto.swift; sourceTree = "<group>"; };
 		6DEAA3D41D82514600772B58 /* Jidori.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jidori.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,7 +180,6 @@
 				6D27FBCF1D827F570088E045 /* start2-06.jpg */,
 				6D6978501D717F8600A15481 /* AppDelegate.swift */,
 				6D6978521D717F8600A15481 /* ViewController.swift */,
-				6DEAA3941D81CD3A00772B58 /* TakePhoto.swift */,
 				6D27FC861D829A110088E045 /* RegisterAngle.swift */,
 				6DEAA3D41D82514600772B58 /* Jidori.swift */,
 				6D6978541D717F8600A15481 /* Main.storyboard */,
@@ -279,7 +276,8 @@
 				TargetAttributes = {
 					6D69784C1D717F8600A15481 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 4YZE849B9W;
+						DevelopmentTeam = L8MX5JJJM6;
+						LastSwiftMigration = 0800;
 					};
 					6D6978601D717F8600A15481 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -363,7 +361,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DEAA3951D81CD3A00772B58 /* TakePhoto.swift in Sources */,
 				6D27FC851D8299090088E045 /* README.md in Sources */,
 				6D6978531D717F8600A15481 /* ViewController.swift in Sources */,
 				6D27FC871D829A110088E045 /* RegisterAngle.swift in Sources */,
@@ -512,11 +509,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L8MX5JJJM6;
 				INFOPLIST_FILE = faceFeature/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeature;
+				PRODUCT_BUNDLE_IDENTIFIER = idl.yatty.faceFeature;
 				PRODUCT_NAME = "Jido-ri";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -526,11 +526,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = L8MX5JJJM6;
 				INFOPLIST_FILE = faceFeature/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.ac.keio.sfc.s15904sy.faceFeature;
+				PRODUCT_BUNDLE_IDENTIFIER = idl.yatty.faceFeature;
 				PRODUCT_NAME = "Jido-ri";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

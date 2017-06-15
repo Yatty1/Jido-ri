@@ -12,13 +12,13 @@ import CoreImage
 extension UIImage{
     
     // UIImageをリサイズするメソッド.
-    class func ResizeUIImage(image : UIImage,width : CGFloat, height : CGFloat)-> UIImage!{
+    class func ResizeUIImage(_ image : UIImage,width : CGFloat, height : CGFloat)-> UIImage!{
         
         // 指定された画像の大きさのコンテキストを用意.
-        UIGraphicsBeginImageContext(CGSizeMake(width, height))
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
         
         // コンテキストに自身に設定された画像を描画する.
-        image.drawInRect(CGRectMake(0, 20, width, height))
+        image.draw(in: CGRect(x: 0, y: 20, width: width, height: height))
         
         // コンテキストからUIImageを作る.
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -41,24 +41,24 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     var faceAngle: Float!
     
     @IBOutlet weak var angle: UILabel!
-    var defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+    var defaults: UserDefaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //ぼたんのプロパティ設定
         retake.layer.masksToBounds = true
         retake.layer.cornerRadius = 15.0
-        retake.hidden = true
+        retake.isHidden = true
         ok.layer.masksToBounds = true
         ok.layer.cornerRadius = 15.0
-        ok.hidden = true
+        ok.isHidden = true
         // labelのプロパティ設定
         angle.layer.masksToBounds = true
         angle.layer.cornerRadius = 10.0
-        angle.hidden = true
+        angle.isHidden = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if myImageView.image == nil{
             chooseAlert()
         }
@@ -66,23 +66,23 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     }
     
     //デリゲートを設定
-    func presentPickerController(sourceType: UIImagePickerControllerSourceType){
+    func presentPickerController(_ sourceType: UIImagePickerControllerSourceType){
         if UIImagePickerController.isSourceTypeAvailable(sourceType){
             
             let picker = UIImagePickerController()
             picker.sourceType = sourceType
             picker.delegate = self
-            self.presentViewController(picker, animated: true, completion: nil)
+            self.present(picker, animated: true, completion: nil)
         }
     }
     
     //撮影が終わった時のデリゲートメソッド
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
+        self.dismiss(animated: true, completion: nil)
         myImageView.image = image
-        retake.hidden = false
-        ok.hidden = false
-        angle.hidden = false
+        retake.isHidden = false
+        ok.isHidden = false
+        angle.isHidden = false
         //ここに顔認識、角度取得の処理を書く
         recognizeFace(myImageView.image!)
         
@@ -93,59 +93,60 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
         super.didReceiveMemoryWarning()
     }
     
-    func recognizeFace(image: UIImage){
-            let myImage: UIImage = UIImage.ResizeUIImage(image, width: self.view.frame.width, height: self.view.frame.height-145)
+    func recognizeFace(_ image: UIImage){
+        
+            let myImage: UIImage = UIImage.ResizeUIImage(image, width: self.view.frame.width, height: self.view.frame.height-147)
             // create UIImageView
             let myImageView: UIImageView = UIImageView()
-            myImageView.frame = CGRectMake(0, 0, myImage.size.width, myImage.size.height)
+            myImageView.frame = CGRect(x: 0, y: 0, width: myImage.size.width, height: myImage.size.height)
             myImageView.image = myImage
-            myImageView.contentMode = UIViewContentMode.ScaleAspectFit
+            myImageView.contentMode = UIViewContentMode.scaleAspectFit
             self.view.addSubview(myImageView)
         
             //create option as Dictionary Type. add accuracy of recognition
-            let options: NSDictionary = NSDictionary(object: CIDetectorAccuracyHigh, forKey: CIDetectorAccuracy)
+            let options: NSDictionary = NSDictionary(object: CIDetectorAccuracyHigh, forKey: CIDetectorAccuracy as NSCopying)
         
             //create CIDetector. type is CIDetectorTypeFace
-            let detector: CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: options as? [String : AnyObject])
+            let detector: CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options: options as? [String : AnyObject])!
         
-            let faces: NSArray = detector.featuresInImage(CIImage(image: myImage)!)
+            let faces: NSArray = detector.features(in: CIImage(image: myImage)!) as NSArray
+        //座標の点をあわせる
+            var transform: CGAffineTransform = CGAffineTransform(scaleX: 1, y: -1)
+            transform = transform.translatedBy(x: 0, y: -myImageView.bounds.size.height)
         
-            var transform: CGAffineTransform = CGAffineTransformMakeScale(1, -1)
-            transform = CGAffineTransformTranslate(transform, 0, -myImageView.bounds.size.height)
-        
-            var feature : CIFaceFeature = CIFaceFeature()
+//            var feature : CIFaceFeature = CIFaceFeature()
         
             for feature in faces{
-                faceAngle = feature.faceAngle
+                faceAngle = (feature as AnyObject).faceAngle
                 print("angle is \(faceAngle)")
                 if (faceAngle == 0.0){
                     errorAlert()
                     
                 }else{
                 //userdefaultに保存
-                defaults.setFloat(faceAngle, forKey: "angle")
+                defaults.set(faceAngle, forKey: "angle")
                 }
                 //labelに表示
                 angle.text = String(faceAngle)
                         
                 //座標変換
-                let faceRect: CGRect = CGRectApplyAffineTransform(feature.bounds, transform)
+                let faceRect: CGRect = ((feature as AnyObject).bounds).applying(transform)
                 //画像の顔の周りを線で囲うUIVIew
-                var faceOutline = UIView(frame: faceRect)
+                let faceOutline = UIView(frame: faceRect)
                 faceOutline.layer.borderWidth = 1
-                faceOutline.layer.borderColor = UIColor.redColor().CGColor
+                faceOutline.layer.borderColor = UIColor.red.cgColor
                 myImageView.addSubview(faceOutline)
             }
             
 
     }
     
-    @IBAction func okBtn(sender: AnyObject) {
+    @IBAction func okBtn(_ sender: AnyObject) {
         okAlert()
     }
     
-    @IBAction func retakeBtn(sender: AnyObject) {
-        defaults.removeObjectForKey("angle")
+    @IBAction func retakeBtn(_ sender: AnyObject) {
+        defaults.removeObject(forKey: "angle")
         retakeAlert()
     }
     
@@ -154,83 +155,83 @@ class RegisterAngle: UIViewController,UIImagePickerControllerDelegate, UINavigat
     func errorAlert(){
         let alert = UIAlertController(title: "角度が検知できませんでした。",
                                       message: "もう一度撮り直してください",
-                                      preferredStyle: .Alert)
+                                      preferredStyle: .alert)
         let action = UIAlertAction(title: "OK",
-                                   style: .Default,
+                                   style: .default,
                                    handler: camera)
         alert.addAction(action)
-        presentViewController(alert, animated: true, completion:  nil)
+        present(alert, animated: true, completion:  nil)
     }
-    func camera (action: UIAlertAction){
-        self.presentPickerController(.Camera)
+    func camera (_ action: UIAlertAction){
+        self.presentPickerController(.camera)
     }
     
     //ok押した時のalert
     func okAlert(){
         let alert = UIAlertController(title: "角度を保存しました",
                                       message: "",
-                                      preferredStyle: .Alert)
+                                      preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK",
-                                     style: .Default,
+                                     style: .default,
                                      handler: save)
         alert.addAction(okAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     //ok method
-    func save(action: UIAlertAction){
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func save(_ action: UIAlertAction){
+        self.dismiss(animated: true, completion: nil)
     }
     
     // 最初に出すアラート。ここでカメラかライブラリかを決める
     func chooseAlert(){
         let alert = UIAlertController(title: "写真を選んで角度を登録！",
                                       message: "カメラかライブラリから",
-                                      preferredStyle: .ActionSheet)
+                                      preferredStyle: .actionSheet)
         let cameraAction = UIAlertAction(title: "カメラ",
-                                         style: .Default){
-                                            action in self.presentPickerController(.Camera)
+                                         style: .default){
+                                            action in self.presentPickerController(.camera)
         }
         let libraryAction = UIAlertAction(title: "ライブラリ",
-                                          style: .Default){
-                                            action in self.presentPickerController(.PhotoLibrary)
+                                          style: .default){
+                                            action in self.presentPickerController(.photoLibrary)
         }
         let cancelAction = UIAlertAction(title: "キャンセル",
-                                         style: .Cancel,
+                                         style: .cancel,
                                          handler: cancel)
         alert.addAction(cameraAction)
         alert.addAction(libraryAction)
         alert.addAction(cancelAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     // キャンセルが押された時のメソッド
-    func cancel(action: UIAlertAction){
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func cancel(_ action: UIAlertAction){
+        self.dismiss(animated: true, completion: nil)
     }
     
     //リテイクの時のアクションシート。違いはキャンセルを押した時にスタート画面に戻らないこと。
     func retakeAlert(){
         let alert = UIAlertController(title: "写真を選んで角度を登録！",
                                       message: "カメラかライブラリから",
-                                      preferredStyle: .ActionSheet)
+                                      preferredStyle: .actionSheet)
         let cameraAction = UIAlertAction(title: "カメラ",
-                                         style: .Default){
-                                            action in self.presentPickerController(.Camera)
+                                         style: .default){
+                                            action in self.presentPickerController(.camera)
         }
         let libraryAction = UIAlertAction(title: "ライブラリ",
-                                          style: .Default){
-                                            action in self.presentPickerController(.PhotoLibrary)
+                                          style: .default){
+                                            action in self.presentPickerController(.photoLibrary)
         }
         let back = UIAlertAction(title: "スタートに戻る",
-                                 style: .Destructive,
+                                 style: .destructive,
                                  handler: cancel)
         let cancelAction = UIAlertAction(title: "キャンセル",
-                                         style: .Cancel,
+                                         style: .cancel,
                                          handler: nil)
         alert.addAction(cameraAction)
         alert.addAction(libraryAction)
         alert.addAction(back)
         alert.addAction(cancelAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 
 }

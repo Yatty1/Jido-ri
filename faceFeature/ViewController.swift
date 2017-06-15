@@ -25,16 +25,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func registerPhoto(){
-        performSegueWithIdentifier("takePhoto", sender: nil)
+        performSegue(withIdentifier: "takePhoto", sender: nil)
     }
 
     @IBAction func takeJidori(){
-        performSegueWithIdentifier("jidori", sender: nil)
+        performSegue(withIdentifier: "jidori", sender: nil)
     }
     
     
     //button corner round
-    func roundBtn(corner: UIButton, num: CGFloat){
+    func roundBtn(_ corner: UIButton, num: CGFloat){
         corner.layer.masksToBounds = true
         corner.layer.cornerRadius = num
     }
