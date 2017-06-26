@@ -21,21 +21,11 @@ class Jidori: UIViewController {
         output.isHighResolutionCaptureEnabled = true
         return output
     }()
-    private lazy var outPutSetting: AVCapturePhotoSettings = {
-        let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG])
-        setting.flashMode = .auto
-        setting.isHighResolutionPhotoEnabled = true
-        setting.isAutoStillImageStabilizationEnabled = true
-        return setting
-    }()
     fileprivate lazy var videoLayer: AVCaptureVideoPreviewLayer = {
         let layer: AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
         layer.frame = self.view.bounds
         layer.videoGravity = AVLayerVideoGravityResizeAspectFill
         return layer
-    }()
-    fileprivate lazy var hideView: UIView = {
-        return UIView(frame: self.view.bounds)
     }()
     fileprivate lazy var angleLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0,y: 0,width: 100,height: 50))
@@ -66,10 +56,13 @@ class Jidori: UIViewController {
         label.layer.position = CGPoint(x:self.view.bounds.width/2, y:self.view.bounds.height-300)
         label.isHidden = true
         return label
-    }()
-
-    var timer: Int = 4
-    var getCount: Int = 0
+        }()
+    var timer: Int = 4 {
+        didSet {
+            timerLabel.text = String(timer)
+        }
+    }
+    var isCaptureEnabled = false
     var timerCount: Timer!
 
     override func viewDidLoad() {
@@ -90,7 +83,6 @@ class Jidori: UIViewController {
             .filter{ $0.isVideoOrientationSupported }
             .forEach { $0.videoOrientation = AVCaptureVideoOrientation.portrait }
         view.layer.addSublayer(videoLayer)
-//        view.addSubview(hideView)
         view.addSubview(angleLabel)
         view.addSubview(backBtn)
         view.addSubview(timerLabel)
@@ -137,7 +129,7 @@ class Jidori: UIViewController {
         let oneMore = UIAlertAction(title: "もう一度", style: .cancel, handler: onceMore)
         alertView.addAction(okAction)
         alertView.addAction(oneMore)
-        getCount = 0
+        isCaptureEnabled = false
         present(alertView, animated: true, completion: nil)
     }
 
@@ -145,13 +137,12 @@ class Jidori: UIViewController {
     @objc fileprivate func shot(){
         timerLabel.isHidden = false
         timer -= 1
-        timerLabel.text = String(timer)
         if timer == 0 {
-            print(outPutSetting)
             if let connection = photoOutput.connection(withMediaType: AVMediaTypeVideo) {
                 connection.videoOrientation = videoLayer.connection.videoOrientation
             }
-            photoOutput.capturePhoto(with: outPutSetting, delegate: self)
+            let outputSetting = createOutputSetting()
+            photoOutput.capturePhoto(with: outputSetting, delegate: self)
             captureSession.stopRunning()
             confirmAlert()
             //タイマーを止める。タイマーリセット
@@ -159,6 +150,14 @@ class Jidori: UIViewController {
             timer = 4
             timerLabel.isHidden = true
         }
+    }
+
+    private func createOutputSetting() -> AVCapturePhotoSettings {
+        let setting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG])
+        setting.flashMode = .auto
+        setting.isHighResolutionPhotoEnabled = true
+        setting.isAutoStillImageStabilizationEnabled = true
+        return setting
     }
 
     //保存する
@@ -207,7 +206,6 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
             let detector : CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options:[CIDetectorAccuracy: CIDetectorAccuracyHigh] )!
             let faces : NSArray = detector.features(in: ciimage) as NSArray
             // 検出された顔データを処理
-            hideView.subviews.forEach { $0.removeFromSuperview() }
             faces.forEach { face in
                 // 座標変換
                 var faceRect : CGRect = (face as AnyObject).bounds
@@ -215,7 +213,7 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
                 let heightPer = (self.view.bounds.height/image.size.height)
                 // UIKitは左上に原点があるが、CoreImageは左下に原点があるので揃える
                 faceRect.origin.y = image.size.height - faceRect.origin.y - faceRect.size.height
-                //倍率変換
+//                //倍率変換
                 faceRect.origin.x = faceRect.origin.x * widthPer
                 faceRect.origin.y = faceRect.origin.y * heightPer
                 faceRect.size.width = faceRect.size.width * widthPer
@@ -225,11 +223,9 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
                 angleLabel.text = String((face as AnyObject).faceAngle)
                 angle = userDefaults.float(forKey: "angle")
                 //指定のアングルで写真を撮る
-                if (face as AnyObject).faceAngle == angle {
-                    getCount += 1
-                    if (getCount == 1){
-                        timerCount = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(shot), userInfo: nil, repeats: true)
-                    }
+                isCaptureEnabled = (face as AnyObject).faceAngle == angle
+                if isCaptureEnabled {
+                    timerCount = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(shot), userInfo: nil, repeats: true)
                 }
             }
         })
