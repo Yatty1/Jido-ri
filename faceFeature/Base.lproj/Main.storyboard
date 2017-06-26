@@ -55,8 +55,8 @@
                     <connections>
                         <outlet property="jidoriBtn" destination="O6r-ra-f3l" id="hIJ-Ht-9Gt"/>
                         <outlet property="registerBtn" destination="1jh-4o-WU8" id="XPc-wm-URm"/>
-                        <segue destination="HAG-fo-XTU" kind="presentation" identifier="takePhoto" id="5tB-pw-ufU"/>
-                        <segue destination="K7N-Tf-we3" kind="presentation" identifier="jidori" id="6aT-pV-q9o"/>
+                        <segue destination="HAG-fo-XTU" kind="presentation" identifier="takePhoto" modalTransitionStyle="crossDissolve" id="5tB-pw-ufU"/>
+                        <segue destination="K7N-Tf-we3" kind="modal" identifier="jidori" modalTransitionStyle="crossDissolve" id="6aT-pV-q9o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -103,7 +103,7 @@
                                 <rect key="frame" x="157" y="602" width="60" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.071439999812365929" green="0.95928269304764813" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>

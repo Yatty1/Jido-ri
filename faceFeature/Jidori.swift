@@ -221,9 +221,10 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
                 faceRect.size.height = faceRect.size.height * heightPer
                 print((face as AnyObject).faceAngle)
                 //アングル表示
-                angleLabel.text = String((face as AnyObject).faceAngle)
+                let faceAngle: Float = (face as AnyObject).faceAngle
+                angleLabel.text = String(faceAngle)
                 //指定のアングルで写真を撮る
-                isCaptureEnabled = (face as AnyObject).faceAngle == angle
+                isCaptureEnabled = faceAngle == angle
                 if isCaptureEnabled {
                     getCount += 1
                     if getCount == 1 {

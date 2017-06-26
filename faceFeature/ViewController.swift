@@ -13,17 +13,13 @@ class ViewController: UIViewController {
 
     @IBOutlet var registerBtn: UIButton!
     @IBOutlet var jidoriBtn: UIButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         roundBtn(registerBtn, num: 15.0)
         roundBtn(jidoriBtn, num: 15.0)
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+
     @IBAction func registerPhoto(){
         performSegue(withIdentifier: "takePhoto", sender: nil)
     }
@@ -31,14 +27,11 @@ class ViewController: UIViewController {
     @IBAction func takeJidori(){
         performSegue(withIdentifier: "jidori", sender: nil)
     }
-    
-    
+
     //button corner round
     func roundBtn(_ corner: UIButton, num: CGFloat){
         corner.layer.masksToBounds = true
         corner.layer.cornerRadius = num
     }
-    
-
 }
 
