@@ -11,10 +11,16 @@ import AVFoundation
 
 class Jidori: UIViewController {
 
-    let captureSession = AVCaptureSession()
-    var myImageData: Data?
-    let userDefaults: UserDefaults = UserDefaults.standard
-    var angle: Float!
+    fileprivate var isCaptureEnabled = false
+    fileprivate var timer: Timer!
+    fileprivate var getCount = 0
+    private var timerCount: Int = 4
+
+    fileprivate let captureSession = AVCaptureSession()
+    fileprivate var myImageData: Data?
+    fileprivate var angle: Float {
+        return UserDefaults.standard.float(forKey: "angle")
+    }
     private let videoOutput = AVCaptureVideoDataOutput()
     private lazy var photoOutput: AVCapturePhotoOutput = {
         let output = AVCapturePhotoOutput()
@@ -27,6 +33,7 @@ class Jidori: UIViewController {
         layer.videoGravity = AVLayerVideoGravityResizeAspectFill
         return layer
     }()
+
     fileprivate lazy var angleLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0,y: 0,width: 100,height: 50))
         label.backgroundColor = .cyan
@@ -57,10 +64,6 @@ class Jidori: UIViewController {
         label.isHidden = true
         return label
         }()
-    var timerCount: Int = 4
-    var isCaptureEnabled = false
-    var timer: Timer!
-    var getCount = 0
 
     //MARK: - life cycle
     override func viewDidLoad() {
@@ -112,15 +115,19 @@ class Jidori: UIViewController {
         //バッファーをUIImageに変換
         let imageBuffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
         CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
+//        let ciimage = CIImage(cvPixelBuffer: imageBuffer) //simple ver
         let baseAddress = CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0)
         let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
-        let width = CVPixelBufferGetWidth(imageBuffer)
-        let height = CVPixelBufferGetHeight(imageBuffer)
+        let width = CVPixelBufferGetWidth(imageBuffer) //common
+        let height = CVPixelBufferGetHeight(imageBuffer) //common
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = (CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue)
         let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
         let imageRef = context?.makeImage()
         CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
+//        let imageRect = CGRect(x: 0, y: 0, width: width, height: height) //simple ver
+//        let cgImage = CIContext().createCGImage(ciimage, from: imageRect) //simple ver
+//        return UIImage(cgImage: cgImage!)
         let resultImage: UIImage = UIImage(cgImage: imageRef!)
         return resultImage
     }
@@ -128,7 +135,8 @@ class Jidori: UIViewController {
     private func timerReset() {
         timerCount = 4
     }
-    //タイマーで呼び出し。　3.2.1でシャッターを切る
+
+    //MARK: - action
     @objc fileprivate func shot(){
         timerLabel.isHidden = false
         timerCount -= 1
@@ -183,7 +191,6 @@ class Jidori: UIViewController {
 //MARK: - extends AVCapturePhotoDelegate
 extension Jidori: AVCapturePhotoCaptureDelegate {
     func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
-        print(photoSampleBuffer)
         guard let sampleBuffer = photoSampleBuffer else { return }
         myImageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
     }
@@ -203,11 +210,11 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
             faces.forEach { face in
                 // 座標変換
                 var faceRect : CGRect = (face as AnyObject).bounds
-                let widthPer = (self.view.bounds.width/image.size.width)
-                let heightPer = (self.view.bounds.height/image.size.height)
+                let widthPer = self.view.bounds.width / image.size.width
+                let heightPer = self.view.bounds.height / image.size.height
                 // UIKitは左上に原点があるが、CoreImageは左下に原点があるので揃える
-                faceRect.origin.y = image.size.height - faceRect.origin.y - faceRect.size.height
-//                //倍率変換
+//                faceRect.origin.y = image.size.height - faceRect.origin.y - faceRect.size.height
+                //倍率変換
                 faceRect.origin.x = faceRect.origin.x * widthPer
                 faceRect.origin.y = faceRect.origin.y * heightPer
                 faceRect.size.width = faceRect.size.width * widthPer
@@ -215,7 +222,6 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
                 print((face as AnyObject).faceAngle)
                 //アングル表示
                 angleLabel.text = String((face as AnyObject).faceAngle)
-                angle = userDefaults.float(forKey: "angle")
                 //指定のアングルで写真を撮る
                 isCaptureEnabled = (face as AnyObject).faceAngle == angle
                 if isCaptureEnabled {
