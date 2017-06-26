@@ -57,17 +57,16 @@ class Jidori: UIViewController {
         label.isHidden = true
         return label
         }()
-    var timer: Int = 4 {
-        didSet {
-            timerLabel.text = String(timer)
-        }
-    }
+    var timerCount: Int = 4
     var isCaptureEnabled = false
-    var timerCount: Timer!
+    var timer: Timer!
+    var getCount = 0
 
+    //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let device = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
+        captureSession.sessionPreset = AVCaptureSessionPreset1920x1080
+        if let device = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
             do {
                 let videoInput = try AVCaptureDeviceInput.init(device: device)
                 captureSession.addInput(videoInput)
@@ -75,13 +74,12 @@ class Jidori: UIViewController {
                 print(error)
             }
         }
-
-        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : Int(kCVPixelFormatType_32BGRA)]
-        setCaptureSession()
         videoOutput.connections
             .flatMap { $0 as? AVCaptureConnection }
-            .filter{ $0.isVideoOrientationSupported }
-            .forEach { $0.videoOrientation = AVCaptureVideoOrientation.portrait }
+            .filter { $0.isVideoOrientationSupported }
+            .forEach { $0.videoOrientation = .portrait }
+        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : Int(kCVPixelFormatType_32BGRA)]
+        setCaptureSession()
         view.layer.addSublayer(videoLayer)
         view.addSubview(angleLabel)
         view.addSubview(backBtn)
@@ -97,12 +95,17 @@ class Jidori: UIViewController {
         captureSession.stopRunning()
     }
 
+    //MARK: - setup
     private func setCaptureSession() {
         let queue: DispatchQueue = DispatchQueue(label: "myqueue", attributes: [])
         videoOutput.setSampleBufferDelegate(self, queue: queue)
         videoOutput.alwaysDiscardsLateVideoFrames = true
         captureSession.addOutput(videoOutput)
         captureSession.addOutput(photoOutput)
+    }
+
+    @objc private func back(){
+        dismiss(animated: true, completion: nil)
     }
 
     fileprivate func imageFromSampleBuffer(_ sampleBuffer: CMSampleBuffer) -> UIImage {
@@ -122,33 +125,20 @@ class Jidori: UIViewController {
         return resultImage
     }
 
-    //確認アラート
-    private func confirmAlert(){
-        let alertView = UIAlertController(title: "保存しますか？", message: "", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "保存", style: .default, handler: save)
-        let oneMore = UIAlertAction(title: "もう一度", style: .cancel, handler: onceMore)
-        alertView.addAction(okAction)
-        alertView.addAction(oneMore)
-        isCaptureEnabled = false
-        present(alertView, animated: true, completion: nil)
+    private func timerReset() {
+        timerCount = 4
     }
-
     //タイマーで呼び出し。　3.2.1でシャッターを切る
     @objc fileprivate func shot(){
         timerLabel.isHidden = false
-        timer -= 1
-        if timer == 0 {
-            if let connection = photoOutput.connection(withMediaType: AVMediaTypeVideo) {
-                connection.videoOrientation = videoLayer.connection.videoOrientation
-            }
+        timerCount -= 1
+        timerLabel.text = String(timerCount)
+        if timerCount == 0 {
             let outputSetting = createOutputSetting()
             photoOutput.capturePhoto(with: outputSetting, delegate: self)
-            captureSession.stopRunning()
             confirmAlert()
-            //タイマーを止める。タイマーリセット
-            timerCount.invalidate()
-            timer = 4
             timerLabel.isHidden = true
+            timer.invalidate()
         }
     }
 
@@ -160,24 +150,29 @@ class Jidori: UIViewController {
         return setting
     }
 
-    //保存する
+//MARK: - related to alert
+    private func confirmAlert(){
+        let alertView = UIAlertController(title: "保存しますか？", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "保存", style: .default, handler: save)
+        let oneMore = UIAlertAction(title: "もう一度", style: .cancel, handler: onceMore)
+        alertView.addAction(okAction)
+        alertView.addAction(oneMore)
+        isCaptureEnabled = false
+        getCount = 0
+        present(alertView, animated: true, completion: nil)
+    }
+
     private func save(_ action: UIAlertAction){
-        // create UIImage from jpeg
         guard let data = myImageData else { return }
         guard let image = UIImage(data: data) else { return }
-        // add to album
         UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
         captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
 
-    //もう一度
     private func onceMore(_ action: UIAlertAction){
+        timerReset()
         captureSession.startRunning()
-    }
-
-    @objc private func back(){
-        dismiss(animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -185,16 +180,16 @@ class Jidori: UIViewController {
     }
 }
 
+//MARK: - extends AVCapturePhotoDelegate
 extension Jidori: AVCapturePhotoCaptureDelegate {
-
     func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         print(photoSampleBuffer)
-        print(previewPhotoSampleBuffer)
         guard let sampleBuffer = photoSampleBuffer else { return }
         myImageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
     }
 }
 
+//MARK: - extends AVCaptureVideoDataOutputSampleBufferDelegate
 extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
@@ -202,8 +197,7 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
             //バッファーをUIImageに変換
             let image = self.imageFromSampleBuffer(sampleBuffer)
             let ciimage: CIImage = CIImage(image: image)!
-            //CIDetectorAccuracyHighだと高精度（使った感じは遠距離による判定の精度）だが処理が遅くなる
-            let detector : CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options:[CIDetectorAccuracy: CIDetectorAccuracyHigh] )!
+            let detector : CIDetector = CIDetector(ofType: CIDetectorTypeFace, context: nil, options:[CIDetectorAccuracy: CIDetectorAccuracyHigh])!
             let faces : NSArray = detector.features(in: ciimage) as NSArray
             // 検出された顔データを処理
             faces.forEach { face in
@@ -225,7 +219,10 @@ extension Jidori: AVCaptureVideoDataOutputSampleBufferDelegate {
                 //指定のアングルで写真を撮る
                 isCaptureEnabled = (face as AnyObject).faceAngle == angle
                 if isCaptureEnabled {
-                    timerCount = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(shot), userInfo: nil, repeats: true)
+                    getCount += 1
+                    if getCount == 1 {
+                        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(shot), userInfo: nil, repeats: true)
+                    }
                 }
             }
         })
